@@ -3,27 +3,27 @@ const router = express.Router()
 
 router.get('/', (req, res, next) => {
     res.status(200).json({
-        message: 'GET request to /orders',
+        message: 'GET request to /users',
     })
 })
 
 router.post('/', (req, res, next) => {
     res.status(201).json({
-        message: 'Order was created',
+        message: 'User was added',
     })
 })
 
-router.get('/:orderId', (req, res, next) => {
-    const id = req.params.orderId
+router.get('/:userId', (req, res, next) => {
+    const id = req.params.userId
     res.status(200).json({
-        message: 'Order details',
+        message: 'User details',
     })
 })
 
-router.delete('/:orderId', (req, res, next) => {
-    const id = req.params.orderId
+router.delete('/:userId', (req, res, next) => {
+    const id = req.params.userId
     res.status(200).json({
-        message: 'Order deleted',
+        message: 'User deleted',
     })
 })
 

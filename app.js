@@ -1,12 +1,12 @@
-/*jshint esversion: 6 */
+const express = require('express')
+const app = express()
 
-const express = require('express');
-const app = express();
+const productsRoutes = require('./api/routes/products')
+const ordersRoutes = require('./api/routes/orders')
+const usersRoutes = require('./api/routes/users')
 
-const productsRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
+app.use('/api/products', productsRoutes)
+app.use('/api/orders', ordersRoutes)
+app.use('/api/users', usersRoutes)
 
-app.use('/products', productsRoutes);
-app.use('/orders', orderRoutes);
-
-module.exports = app;
+module.exports = app
