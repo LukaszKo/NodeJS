@@ -1,57 +1,51 @@
-/*jshint esversion: 6 */
-
-const express = require('express');
-const app = express();
-const morgan = require('morgan');
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const config = require('./config/db');
-
-mongoose.connect(config.database);
-
-mongoose.connection.on('connected', () => {
-  console.log('Connected to database');
-});
+const express = require('express')
+const app = express()
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
 // Routes
-const productsRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
+const productsRoutes = require('./api/routes/products')
+const ordersRoutes = require('./api/routes/orders')
+const usersRoutes = require('./api/routes/users')
 
 // logger and body parser
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(morgan('dev'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // handling CORS
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers", "*");
-  if (req.method === 'OPTIONS') {
-      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-      return res.status(200).json({});
-  }
-  next();
-});
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Headers', '*')
+    if (req.method === 'OPTIONS') {
+        res.header(
+            'Access-Control-Allow-Methods',
+            'PUT, POST, PATCH, DELETE, GET'
+        )
+        return res.status(200).json({})
+    }
+    next()
+})
 
-app.use('/products', productsRoutes);
-app.use('/orders', orderRoutes);
+app.use('/api/products', productsRoutes)
+app.use('/api/orders', ordersRoutes)
+app.use('/api/users', usersRoutes)
 
 // handling 404 status error response
 app.use((req, res, next) => {
-    const error = new Error('Not found');
-    error.status = 404;
-    next(error);
-});
+    const error = new Error('Not found')
+    error.status = 404
+    next(error)
+})
 
 // hadling 500 status errors response
 app.use((error, req, res, next) => {
-    res.status(error.status || 500);
+    res.status(error.status || 500)
     res.json({
         error: {
-            message: error.message
-        }
-    });
-});
+            message: error.message,
+        },
+    })
+})
 
-module.exports = app;
+module.exports = app
